@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "91741671058",
+    "firebase_url": "https://sodespesas-walber-teodoro.firebaseio.com",
+    "project_id": "sodespesas-walber-teodoro",
+    "storage_bucket": "sodespesas-walber-teodoro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91741671058:android:8ddd67365119bf71",
+        "android_client_info": {
+          "package_name": "br.com.walber.sodespesas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91741671058-egl9geeivhjrl18ktnl69k2m13idn50a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK8PfPix7fV4fhOyb4bG523MTARIpg61c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
