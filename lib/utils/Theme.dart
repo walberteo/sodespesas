@@ -5,8 +5,8 @@ final baseTextStyle = TextStyle(
   fontFamily: 'Poppins',
 );
 
-final primaryColor = Color(0xff996BF5);
-final secundaryColor = Color(0xff6143DF);
+final primaryColor = Colors.indigo;
+final secundaryColor = Colors.blue;
 
 final headerTextStyle = baseTextStyle.copyWith(
   color: Colors.white,

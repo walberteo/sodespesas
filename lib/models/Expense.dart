@@ -7,8 +7,6 @@ class Expense {
   final double value;
   final DateTime date;
   final IconData icon;
-  final Color color;
 
-  Expense(
-      this.icon, this.title, this.subtitle, this.value, this.date, this.color);
+  Expense(this.icon, this.title, this.subtitle, this.value, this.date);
 }

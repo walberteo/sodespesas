@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'package:despesas/components/GradientAppBar.dart';
-import 'package:despesas/utils/Theme.dart' as theme;
-import 'package:despesas/utils/Route.dart';
-import 'package:despesas/models/ExpenseMonth.dart';
-import 'package:despesas/models/Expense.dart';
+import 'package:despesas_androidx/components/GradientAppBar.dart';
+import 'package:despesas_androidx/utils/Theme.dart' as theme;
+import 'package:despesas_androidx/utils/Route.dart';
+import 'package:despesas_androidx/models/ExpenseMonth.dart';
+import 'package:despesas_androidx/models/Expense.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Só Despesas :(',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: theme.primaryColor,
         fontFamily: theme.baseTextStyle.fontFamily,
         backgroundColor: Colors.white,
         primaryColor: theme.primaryColor,
@@ -53,11 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
         locale: 'pt-Br', symbol: 'R\$', decimalDigits: 2);
 
     var data = [
-      new ExpenseMonth('Nov', 28, Color(0xff996BF5)),
-      new ExpenseMonth('Dez', 15, Color(0xff996BF5)),
-      new ExpenseMonth('Jan', 12, Color(0xff996BF5)),
-      new ExpenseMonth('Fev', 42, Color(0xff996BF5)),
-      new ExpenseMonth('Mar', _counter, Color(0xff996BF5)),
+      new ExpenseMonth('Nov', 28, theme.primaryColor),
+      new ExpenseMonth('Dez', 15, theme.primaryColor),
+      new ExpenseMonth('Jan', 12, theme.primaryColor),
+      new ExpenseMonth('Fev', 42, theme.primaryColor),
+      new ExpenseMonth('Mar', _counter, theme.primaryColor),
       new ExpenseMonth('Abr', 25, Colors.grey[200]),
       new ExpenseMonth('Maio', 10, Colors.grey[200]),
       new ExpenseMonth('Jun', 5, Colors.grey[200]),
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
       domainAxis: charts.OrdinalAxisSpec(
         showAxisLine: true,
-        renderSpec: new charts.NoneRenderSpec(),
+        // renderSpec: new charts.NoneRenderSpec(),
       ),
       layoutConfig: charts.LayoutConfig(
           leftMarginSpec: charts.MarginSpec.fixedPixel(0),
@@ -94,35 +94,30 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.15,
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.88,
         child: chart,
       ),
     );
 
     var makeCardCharts = Card(
-      elevation: 2,
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      elevation: 1,
+      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.95,
+        width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                chartWidget,
-              ],
-            ),
+            chartWidget,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.only(left: 12, top: 15),
               child: Text(
                 'R\$ 1.203,43',
                 style: TextStyle(fontSize: 24),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.only(left: 12, bottom: 5),
               child: Text('Seu dinheiro está indo embora.'),
             ),
           ],
@@ -132,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     ListTile makeListExpense(Expense expense) {
       return ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         isThreeLine: false,
         selected: true,
         leading: Container(
@@ -141,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
             border: Border(
               right: BorderSide(
                 width: 1,
-                color: Colors.white,
+                color: Colors.black45,
               ),
             ),
           ),
@@ -149,13 +144,13 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Icon(
               expense.icon,
-              color: Colors.white,
+              color: Colors.black45,
             ),
           ),
         ),
         title: Text(
           expense.title,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black87),
           maxLines: 1,
           softWrap: false,
           overflow: TextOverflow.ellipsis,
@@ -163,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
         subtitle: Text(
           expense.subtitle,
           style: TextStyle(
-            color: Colors.white70,
+            color: Colors.black45,
             fontStyle: FontStyle.italic,
             fontSize: 12,
           ),
@@ -178,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(
                 '${DateFormat('dd/MM').format(expense.date)}',
                 style: TextStyle(
-                    color: Colors.white70,
+                    color: Colors.black45,
                     fontStyle: FontStyle.italic,
                     fontSize: 12),
               ),
@@ -186,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '${_fNumber.format(expense.value)}',
               style: TextStyle(
-                color: Colors.white70,
+                color: Colors.black54,
                 fontStyle: FontStyle.italic,
               ),
             )
@@ -198,14 +193,20 @@ class _MyHomePageState extends State<MyHomePage> {
     var makeCardExpense = ListView.builder(
       itemCount: expenses.length,
       itemBuilder: (BuildContext context, int index) {
-        return Card(
-          elevation: 4,
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 2, vertical: 0),
           child: Container(
               decoration: BoxDecoration(
-                color: expenses[index].color,
+                color: Colors.white,
               ),
-              child: makeListExpense(expenses[index])),
+              child: Column(
+                children: <Widget>[
+                  makeListExpense(expenses[index]),
+                  Divider(
+                    color: Colors.black26,
+                  )
+                ],
+              )),
         );
       },
     );
@@ -239,13 +240,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 var expenses = [
   Expense(Icons.fastfood, 'Lanche muito grande e caro',
-      'Pare de comer tanto assim', 45.00, DateTime.now(), theme.primaryColor),
+      'Pare de comer tanto assim', 45.00, DateTime.now()),
   Expense(Icons.directions_bus, 'Bilhete semanal de viagem',
-      'Você poderia ir andando', 39.90, DateTime.now(), Colors.black87),
-  Expense(Icons.fastfood, 'Lanche muito grande e caro',
-      'Pare de comer tanto assim', 45.00, DateTime.now(), theme.primaryColor),
-  Expense(Icons.fastfood, 'Lanche muito grande e caro',
-      'Pare de comer tanto assim', 45.00, DateTime.now(), Colors.cyan),
+      'Você poderia ir andando', 39.90, DateTime.now()),
+  Expense(Icons.local_gas_station, 'Combustível', 'Dá para ir empurrando',
+      90.00, DateTime.now()),
+  Expense(Icons.local_movies, 'Filme do Shazam!',
+      'Tem gasto que não da para evitar', 45.00, DateTime.now()),
+  Expense(Icons.videogame_asset, 'Resident Evil 2', 'Vale apena cada centavo',
+      155.00, DateTime.now()),
 ];
 
 // Colors.blueGrey
