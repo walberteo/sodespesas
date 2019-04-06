@@ -1,8 +1,8 @@
-import 'package:despesas_androidx/utils/Route.dart';
+import 'package:despesas_androidx/src/utils/Route.dart';
+import 'package:despesas_androidx/src/utils/Theme.dart' as theme;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:despesas_androidx/utils/Theme.dart' as theme;
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -11,6 +11,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var emailController = new TextEditingController();
+  var senhaController = new TextEditingController();
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode senhaFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     Widget _makeButtonSocial(String title) {
@@ -59,6 +64,13 @@ class _LoginPageState extends State<LoginPage> {
                     padding:
                         const EdgeInsets.only(top: 50, left: 16, right: 32),
                     child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
+                      focusNode: emailFocus,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(senhaFocus);
+                      },
                       decoration: InputDecoration(
                         icon: Icon(Icons.email),
                         hintText: 'E-mail',
@@ -69,10 +81,16 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.only(
                         top: 15, left: 16, right: 32, bottom: 15),
                     child: TextField(
+                      keyboardType: TextInputType.text,
+                      controller: senhaController,
+                      focusNode: senhaFocus,
+                      textInputAction: TextInputAction.done,
+                      obscureText: true,
                       decoration: InputDecoration(
                         icon: Icon(Icons.lock),
                         hintText: 'Senha',
                       ),
+                      //onSubmitted: entrar(),
                     ),
                   ),
                   Container(

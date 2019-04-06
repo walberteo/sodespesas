@@ -1,4 +1,4 @@
-import 'package:despesas_androidx/pages/home/home.dart';
+import 'package:despesas_androidx/src/ui/home/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

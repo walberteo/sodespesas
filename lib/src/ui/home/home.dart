@@ -1,14 +1,14 @@
+//import 'package:despesas_androidx/components/fancy_tab_bar.dart';
+import 'package:despesas_androidx/src/ui/components/fancy_bottom_navigation/fancy_bottom_navigation.dart';
+import 'package:despesas_androidx/src/ui/components/GradientAppBar.dart';
+import 'package:despesas_androidx/src/utils/Theme.dart' as theme;
+import 'package:despesas_androidx/src/models/ExpenseMonth.dart';
+import 'package:despesas_androidx/src/models/Expense.dart';
+
+import 'package:intl/intl.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:despesas_androidx/components/GradientAppBar.dart';
-import 'package:despesas_androidx/utils/Theme.dart' as theme;
-import 'package:despesas_androidx/utils/Route.dart';
-import 'package:despesas_androidx/models/ExpenseMonth.dart';
-import 'package:despesas_androidx/models/Expense.dart';
-import 'package:intl/intl.dart';
-
-import 'package:charts_flutter/flutter.dart' as charts;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.15,
-        width: MediaQuery.of(context).size.width * 0.88,
+        width: MediaQuery.of(context).size.width * 0.96,
         child: chart,
       ),
     );
@@ -175,6 +175,7 @@ class _HomePageState extends State<HomePage> {
       itemCount: expenses.length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
+          color: Colors.transparent,
           margin: EdgeInsets.symmetric(horizontal: 2, vertical: 0),
           child: Container(
               decoration: BoxDecoration(
@@ -193,6 +194,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: GradientAppBar(
         title: Text(
           widget.title,
@@ -201,7 +203,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColorStart: theme.primaryColor,
         backgroundColorEnd: theme.secundaryColor,
       ),
-      body: Container(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -210,11 +212,21 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      bottomNavigationBar: Container(
+          child: FancyBottomNavigation(
+        tabs: [
+          TabData(iconData: Icons.insert_chart, title: "Gráficos"),
+          TabData(iconData: Icons.home, title: "Início"),
+          TabData(iconData: Icons.add_box, title: "Adicionar"),
+        ],
+        initialSelection: 1,
+        circleColor: Colors.indigo,
+        onTabChangedListener: (position) {
+          setState(() {
+            _counter += position;
+          });
+        },
+      )),
     );
   }
 }
