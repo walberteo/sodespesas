@@ -1,4 +1,5 @@
 //import 'package:despesas_androidx/components/fancy_tab_bar.dart';
+import 'package:despesas_androidx/src/blocs/login_bloc_provider.dart';
 import 'package:despesas_androidx/src/ui/components/fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:despesas_androidx/src/ui/components/GradientAppBar.dart';
 import 'package:despesas_androidx/src/utils/Theme.dart' as theme;
@@ -21,11 +22,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double _counter = 0;
+  LoginBloc _blocLogin;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _blocLogin = LoginBlocProvider.of(context);
+  }
+
+  @override
+  void dispose() {
+    _blocLogin.dispose();
+    super.dispose();
   }
 
   @override
@@ -71,40 +79,40 @@ class _HomePageState extends State<HomePage> {
           bottomMarginSpec: charts.MarginSpec.fixedPixel(0)),
     );
 
-    var chartWidget = Padding(
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.15,
-        width: MediaQuery.of(context).size.width * 0.96,
-        child: chart,
-      ),
-    );
+    Padding chartWidget(context) => Padding(
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width * 0.96,
+            child: chart,
+          ),
+        );
 
-    var makeCardCharts = Card(
-      elevation: 1,
-      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            chartWidget,
-            Padding(
-              padding: EdgeInsets.only(left: 12, top: 15),
-              child: Text(
-                'R\$ 1.203,43',
-                style: TextStyle(fontSize: 24),
-              ),
+    Card makeCardCharts(context) => Card(
+          elevation: 1,
+          margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                chartWidget(context),
+                Padding(
+                  padding: EdgeInsets.only(left: 12, top: 15),
+                  child: Text(
+                    'R\$ 1.203,43',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 12, bottom: 5),
+                  child: Text('Seu dinheiro está indo embora.'),
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 12, bottom: 5),
-              child: Text('Seu dinheiro está indo embora.'),
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
 
     ListTile makeListExpense(Expense expense) {
       return ListTile(
@@ -197,17 +205,26 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: GradientAppBar(
         title: Text(
-          widget.title,
+          'Só Despesas :(',
           style: theme.headerTextStyle,
         ),
         backgroundColorStart: theme.primaryColor,
         backgroundColorEnd: theme.secundaryColor,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.all_out),
+            onPressed: () {
+              _blocLogin.logoutUser();
+              _blocLogin.changeUser(null);
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            makeCardCharts,
+            makeCardCharts(context),
             Expanded(child: makeCardExpense),
           ],
         ),

@@ -1,6 +1,9 @@
+import 'package:despesas_androidx/src/blocs/login_bloc_provider.dart';
+import 'package:despesas_androidx/src/ui/home/home.dart';
 import 'package:despesas_androidx/src/utils/Route.dart';
 import 'package:despesas_androidx/src/utils/Theme.dart' as theme;
 import 'package:despesas_androidx/src/ui/login/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +11,9 @@ import 'package:flutter/cupertino.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    return LoginBlocProvider(
+      child: MaterialApp(
         title: 'Só Despesas :(',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -18,7 +23,28 @@ class App extends StatelessWidget {
           primaryColor: theme.primaryColor,
         ),
         onGenerateRoute: (RouteSettings settings) => Routes.getRoute(settings),
-        home: LoginPage() //HomePage(title: 'Só Despesas :('),
-        );
+        home: FutureBuilder<FirebaseUser>(
+          future: _firebaseAuth.currentUser(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return CircularProgressIndicator();
+              default:
+                if (snapshot.hasError) {
+                  print(
+                      "Erro ao verificar estado do usuário: ${snapshot.error}");
+                  return LoginPage();
+                } else if (snapshot.data == null) {
+                  return LoginPage();
+                } else {
+                  LoginBlocProvider.of(context).changeUser(snapshot.data);
+                  return HomePage();
+                }
+            }
+          },
+        ),
+      ),
+    );
   }
 }

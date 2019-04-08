@@ -1,28 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'firestore_provider.dart';
+import 'fireauth_provider.dart';
 //import 'mlkit_provider.dart';
 
 class Repository {
   final _firestoreProvider = FirestoreProvider();
+  final _fireauthProvider = FireauthProvider();
   //final _mlkitProvider = MLkitProvider();
 
-  Future<int> authenticateUser(String email, String password) =>
-      _firestoreProvider.authenticateUser(email, password);
+  Future<FirebaseUser> authenticateUser(String email, String password) =>
+      _fireauthProvider.authenticateUser(email, password);
 
   Future<void> registerUser(String email, String password) =>
-      _firestoreProvider.registerUser(email, password);
+      _fireauthProvider.registerUser(email, password);
 
-  //Future<String> extractText(var image) => _mlkitProvider.getImage(image);
-
-  Future<void> uploadGoal(String email, String title, String goal) =>
-      _firestoreProvider.uploadGoal(title, email, goal);
-
-  Stream<DocumentSnapshot> myGoalList(String email) =>
-      _firestoreProvider.myGoalList(email);
-
-  Stream<QuerySnapshot> othersGoalList() => _firestoreProvider.othersGoalList();
-
-  void removeGoal(String title, email) =>
-      _firestoreProvider.removeGoal(title, email);
+  Future<void> logoutUser() => _fireauthProvider.logoutUser();
 }

@@ -18,4 +18,10 @@ class Routes {
   static navigator(BuildContext context, String rota) {
     Navigator.of(context).pushNamed(rota);
   }
+
+  static navigatorPopAndPush(BuildContext context, String rota) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => new HomePage()),
+        (Route<dynamic> route) => false);
+  }
 }
